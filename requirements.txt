@@ -85,6 +85,7 @@ langdetect
 gpytranslate
 Pillow
 events
+ping3
 
 
 
