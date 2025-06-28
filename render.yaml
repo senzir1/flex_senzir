@@ -1,10 +1,16 @@
+databases:
+  - name: flex
+    ipAllowList: []
+    region: frankfurt
+    plan: free
 services:
   - type: web
-    name: flex-senzir
-    env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: bash start.sh
+    name: zthon
+    env: python
+    buildCommand: pip install -U -r requirements.txt
+    startCommand: python3 server.py & python3 -m zthon
+    region: frankfurt
     envVars:
       - key: ALIVE_NAME
         sync: false
