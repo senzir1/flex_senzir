@@ -84,5 +84,7 @@ deep-translator
 langdetect
 gpytranslate
 Pillow
+events
+
 
 
