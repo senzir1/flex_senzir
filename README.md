@@ -7,4 +7,4 @@
 
 Copyrigh ©️ FLEX - 2025 - iyad
 
-[قناة تليحرام اضغط هنا](htttps//:t.me/senzir2)
+[قناة تليحرام اضغط هنا](https://t.me/source_flex)
