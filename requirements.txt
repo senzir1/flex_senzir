@@ -82,5 +82,5 @@ img2html
 googletrans-py
 deep-translator
 langdetect
-
+gpytranslate
 
