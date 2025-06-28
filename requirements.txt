@@ -83,5 +83,6 @@ googletrans-py
 deep-translator
 langdetect
 gpytranslate
-PIL
+Pillow
+
 
