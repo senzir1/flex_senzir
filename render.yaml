@@ -1,14 +1,14 @@
 services:
   - type: web
-    name: flex-source
+    name: flex-senzir
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "bash start.sh"
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash start.sh
     envVars:
       - key: API_ID
-        value: "ضع_هنا_API_ID"
+        fromRenderer: true
       - key: API_HASH
-        value: "ضع_هنا_API_HASH"
+        fromRenderer: true
       - key: STRING_SESSION
-        value: "ضع_هنا_STRING_SESSION"
+        fromRenderer: true
