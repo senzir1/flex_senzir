@@ -9,7 +9,7 @@ services:
     name: zthon
     env: python
     buildCommand: pip install -U -r requirements.txt
-    startCommand: python3 server.py & python3 -m zthon
+    startCommand: bash start.sh
     region: frankfurt
     envVars:
       - key: ALIVE_NAME
