@@ -8,3 +8,4 @@
 Copyrigh ©️ FLEX - 2025 - iyad
 
 [قناة تليحرام اضغط هنا](https://t.me/source_flex)
+[المطور سينزر اضغط هنا](t.me/senzir1)
