@@ -12,3 +12,4 @@ SQLAlchemy
 deep_translator
 user-agent
 pybase64
+pytz
