@@ -84,7 +84,7 @@ deep-translator
 langdetect
 gpytranslate
 Pillow
-events
+pyee
 ping3
 
 
