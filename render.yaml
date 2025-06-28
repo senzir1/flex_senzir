@@ -6,7 +6,7 @@ databases:
 services:
   - type: web
     plan: free
-    name: zthon
+    name: flex
     env: python
     buildCommand: pip install -U -r requirements.txt
     startCommand: bash start.sh
