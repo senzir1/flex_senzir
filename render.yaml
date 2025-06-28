@@ -4,7 +4,7 @@ databases:
     region: frankfurt
     plan: free
 services:
-  - type: web
+  - type: worker
     plan: free
     name: flex
     env: python
