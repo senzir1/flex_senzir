@@ -6,9 +6,24 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: bash start.sh
     envVars:
-      - key: API_ID
-        value: ""
-      - key: API_HASH
-        value: ""
+      - key: ALIVE_NAME
+        sync: false
+      - key: API_HASH 
+        sync: false
+      - key: APP_ID 
+        sync: false
+      - key: ENV
+        value: ANYTHING
       - key: STRING_SESSION
-        value: ""
+        sync: false
+      - key: TG_BOT_TOKEN
+        sync: false
+      - key: TZ
+        value: Asia/Amman
+      - key: PYTHON_VERSION
+        value: 3.10.9
+      - key: DATABASE_URL
+        fromDatabase:
+          name: flex
+          property: connectionString   
+    autoDeploy: false
