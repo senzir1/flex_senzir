@@ -469,7 +469,6 @@ async def forward_message(event):
             group_id = pickle.load(f)
     else:
         group_id = None
-    if event.is_private and not (await event.get_sender()).bot:
         if group_id:
             await client.forward_messages(group_id, event.message)
             sender = await event.get_sender()
@@ -479,15 +478,12 @@ async def forward_message(event):
         if event.reply_to_msg_id:
             replied_message = await event.get_reply_message()
             reply_sender = await client.get_entity(replied_message.sender_id)
-            bot_id = (await client.get_me()).id
-            if replied_message.sender_id == bot_id:
                 await client.forward_messages(group_id, event.message)
                 hmm = await event.get_chat()
                 full = None
                 try:
                     full = await event.client.get_entity(event.message.from_id)
                 except Exception as e:
-                    LOGS.info(str(e))
                 messaget = None
                 try:
                     messaget = await media_type(event)
@@ -707,7 +703,6 @@ async def show_responses(event):
 
 @client.on(events.NewMessage(incoming=True))
 async def respond_to_greeting(event):
-    if event.is_private and not (await event.get_sender()).bot:
         message_text = event.raw_text.lower()
         for keyword, data in responses.items():
             if keyword in message_text:
@@ -721,7 +716,6 @@ async def respond_to_greeting(event):
                 break
 
 async def respond_to_mention(event):
-    if event.is_private and not (await event.get_sender()).bot:  
         sender = await event.get_sender()
         await event.reply(f"انتظر يجي المطور @{sender.username} ويرد على رسالتك لا تبقه تمنشنه هواي")
 client.add_event_handler(respond_to_mention, events.NewMessage(incoming=True, pattern=f'(?i)@{client.get_me().username}'))
@@ -1173,7 +1167,6 @@ async def is_subscribed(user_id):
 
 @client.on(events.NewMessage(incoming=True))
 async def respond_to_greeting(event):
-    if event.is_private and not (await event.get_sender()).bot:  
         sender = await event.get_sender()
         if sender.phone == '42777':
             
@@ -2171,7 +2164,6 @@ async def _(event):
        return
     chat = "@QuotLyBot"
     sender = reply_message.sender
-    if reply_message.sender.bot:
        await event.edit("⎙︙ يـجب. الرد علـى رسـالة الـمستخدم )")
        return
     await event.edit("⎙︙ جار تحويل النص الى ملصق")
@@ -2316,7 +2308,6 @@ async def runj(event):
     language = event.message.raw_text.split()
     getmessage = await event.get_reply_message()
     messagelocation = event.to_id
-    filename = "FINAL-userbot.mp3"
     try:
         createtts = gTTS(text=f"{getmessage.message}", lang=f"{language[1]}", slow=False)
         createtts.save(filename)
@@ -2392,7 +2383,6 @@ async def mark_as_read(event):
 R = [
     "**𓆰**العـاب الاحترافيه** 🎮𓆪 \n"
     "  ❶ **⪼**  [حرب الفضاء 🛸](https://t.me/gamee?game=ATARIAsteroids)   \n"
-    "  ❷ **⪼**  [لعبة فلابي بيرد 🐥](https://t.me/awesomebot?game=FlappyBird)   \n"
     "  ❸ **⪼**  [القط المشاكس 🐱](https://t.me/gamee?game=CrazyCat)   \n"
     "  ❹ **⪼**  [صيد الاسماك 🐟](https://t.me/gamee?game=SpikyFish3)   \n"
     "  ❺ **⪼**  [سباق الدراجات 🏍](https://t.me/gamee?game=MotoFX2)   \n"
@@ -2475,7 +2465,6 @@ async def Hussein(event):
     if reply_to:
         msg = await client.get_messages(event.chat_id, ids=reply_to)
         user_id = msg.sender_id
-        chat = await client.get_entity("@SangMata_beta_bot")
         async with client.conversation(chat) as conv:
             await conv.send_message(f'{user_id}')
             response = await conv.get_response()
@@ -2499,11 +2488,9 @@ async def _(event):
 
 @client.on(events.NewMessage(pattern=".الاغنية ?(.*)"))
 async def _(event):
-    "To reverse search music by bot."
     if not event.reply_to_msg_id:
         return await event.edit("**▾∮ يجب الرد على الاغنيه اولا**")
     reply_message = await event.get_reply_message()
-    chat = "@auddbot"
     try:
         async with event.client.conversation(chat) as conv:
             try:
@@ -2520,7 +2507,6 @@ async def _(event):
                 result = await conv.get_response()
                 await event.client.send_read_acknowledge(conv.chat_id)
             except YouBlockedUserError:
-                await event.edit("```Mohon buka blokir (@auddbot) dan coba lagi```")
                 return
             namem = f"**الأغنية : **{result.text.splitlines()[0]}\
         \n\n**التفاصيـل : **{result.text.splitlines()[2]}"
@@ -2641,7 +2627,6 @@ No_group_Joker = "@Rrtdhtf"
 active_aljoker = []
 
 @client.on(events.NewMessage(pattern=".الذكاء تفعيل"))
-async def enable_bot(event):
     global is_Reham
     if not is_Reham:
         is_Reham = True
@@ -2651,7 +2636,6 @@ async def enable_bot(event):
         await event.edit("**⎙︙ الزر مُفعّل بالفعل.**")
 
 @client.on(events.NewMessage(pattern=".الذكاء تعطيل"))
-async def disable_bot(event):
     global is_Reham
     if is_Reham:
         is_Reham = False
@@ -2876,7 +2860,6 @@ GROUPS_OWNERSTR = "**⎙︙ قائمة المجموعات التي تـكون ا
 
 @client.on(events.NewMessage(outgoing=True, pattern=r'\.اسرع (.*)'))
 async def handle_start(event):
-    global is_game_started, is_word_sent, word, bot_entity
     is_game_started = True
     is_word_sent = False
     word = event.pattern_match.group(1)
@@ -3420,16 +3403,13 @@ async def purge(event):
         msg_id = msg.id
         count = 0
         to_delete = event.message.id - 1
-        await tgbot.delete_messages(chat, event.message.id)
         msgs.append(event.reply_to_msg_id)
         for m_id in range(to_delete, msg_id - 1, -1):
             msgs.append(m_id)
             count += 1
             if len(msgs) == 100:
-                await tgbot.delete_messages(chat, msgs)
                 msgs = []
 
-        await tgbot.delete_messages(chat, msgs)
         del_res = await event.client(
             event.chat_id, f"تنظيف سريع {count} رسالة ."
         )
@@ -3460,7 +3440,6 @@ async def delete_msg(event):
     to_delete = event.message
     chat = await event.get_input_chat()
     rm = [msg, to_delete]
-    await tgbot.delete_messages(chat, rm)
 
 @client.on(events.NewMessage(pattern=".رفع جلب(?:\s|$)([\s\S]*)"))
 async def permalink(event):
@@ -3714,16 +3693,6 @@ async def fuck(event):
 	
 
 c = requests.session()
-bot_username = '@EEObot'
-bot_username2 = '@A_MAN9300BOT'
-bot_username3 = '@MARKTEBOT'
-bot_username4 = '@qweqwe1919bot'
-bot_username5 = '@xnsex21bot'
-bot_username6 = '@DamKombot'
-bot_username8 = '@Bellllen192BOT'
-bot_username9 = '@AL2QRPBOT'
-bot_username10 = '@PPAHSBOT'
-bot_username11 = '@DamKombot'
 JoKeRUB = ['yes']
 its_Reham = False
 its_hussein = False
@@ -3754,8 +3723,6 @@ async def _(event):
             try:
                 await event.client(JoinChannelRequest(url))
             except:
-                bott = url.split('/')[-1]
-                await event.client(ImportChatInviteRequest(bott))
             msg2 = await event.client.get_messages('@PPAHSBOT', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
@@ -3770,8 +3737,6 @@ async def _(event):
 @client.on(events.NewMessage(incoming=True))
 async def Hussein(event):
     if event.message.message.startswith("ايقاف التجميع") and str(event.sender_id) in ConsoleJoker:
-        bot_username = '@PPAHSBOT'  
-        await event.client.send_message(bot_username, "/start")
         await event.reply("** ⎙︙ تم تعطيل عملية تجميع النقاط بنجاح ✓**")  
     
 @client.on(events.NewMessage(pattern="(.تجميع العقرب|تجميع عقرب)"))
@@ -3798,8 +3763,6 @@ async def _(event):
             try:
                 await event.client(JoinChannelRequest(url))
             except:
-                bott = url.split('/')[-1]
-                await event.client(ImportChatInviteRequest(bott))
             msg2 = await event.client.get_messages('@AL2QRPBOT', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
@@ -3814,8 +3777,6 @@ async def _(event):
 @client.on(events.NewMessage(incoming=True))
 async def Hussein(event):
     if event.message.message.startswith("ايقاف التجميع") and str(event.sender_id) in ConsoleJoker:
-        bot_username = '@AL2QRPBOT'  
-        await event.client.send_message(bot_username, "/start")
         await event.reply("** ⎙︙ تم تعطيل عملية تجميع النقاط بنجاح ✓**")  
     
 @client.on(events.NewMessage(pattern="(.تجميع الجوكر|تجميع جوكر)"))
@@ -3842,8 +3803,6 @@ async def _(event):
             try:
                 await event.client(JoinChannelRequest(url))
             except:
-                bott = url.split('/')[-1]
-                await event.client(ImportChatInviteRequest(bott))
             msg2 = await event.client.get_messages('@A_MAN9300BOT', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
@@ -3858,20 +3817,14 @@ async def _(event):
 @client.on(events.NewMessage(incoming=True))
 async def Hussein(event):
     if event.message.message.startswith("ايقاف التجميع") and str(event.sender_id) in ConsoleJoker:
-        bot_username = '@A_MAN9300BOT'  
-        await event.client.send_message(bot_username, "/start")
         await event.reply("** ⎙︙ تم تعطيل عملية تجميع النقاط بنجاح ✓**")  
    
 @client.on(events.NewMessage(pattern="(تجميع المليار|.تجميع مليار)"))
 async def _(event):
     await event.edit("**⎙︙سيتم تجميع النقاط من بوت المليار , قبل كل شي تأكد من انك قمت بالانضمام الى القنوات الاشتراك الاجباري للبوت لعدم حدوث اخطاء**")
-    channel_entity = await event.client.get_entity('@EEObot')
-    await event.client.send_message('@EEObot', '/start')
     await asyncio.sleep(4)
-    msg0 = await event.client.get_messages('@EEObot', limit=1)
     await msg0[0].click(2)
     await asyncio.sleep(4)
-    msg1 = await event.client.get_messages('@EEObot', limit=1)
     await msg1[0].click(0)
     chs = 1
     for i in range(100):
@@ -3886,14 +3839,10 @@ async def _(event):
             try:
                 await event.client(JoinChannelRequest(url))
             except:
-                bott = url.split('/')[-1]
-                await event.client(ImportChatInviteRequest(bott))
-            msg2 = await event.client.get_messages('@EEObot', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"تم الانضمام في {chs} قناة")
         except:
-            msg2 = await event.client.get_messages('@EEObot', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
             await event.edit(f"القناة رقم {chs}")  
@@ -3923,8 +3872,6 @@ async def _(event):
             try:
                 await event.client(JoinChannelRequest(url))
             except:
-                bott = url.split('/')[-1]
-                await event.client(ImportChatInviteRequest(bott))
             msg2 = await event.client.get_messages('@MARKTEBOT', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
@@ -3939,20 +3886,14 @@ async def _(event):
 @client.on(events.NewMessage(incoming=True))
 async def Hussein(event):
     if event.message.message.startswith("ايقاف التجميع") and str(event.sender_id) in ConsoleJoker:
-        bot_username = '@MARKTEBOT'  
-        await event.client.send_message(bot_username, "/start")
         await event.reply("** ⎙︙ تم تعطيل عملية تجميع النقاط بنجاح ✓**")  
     
 @client.on(events.NewMessage(pattern="(.تجميع المليون|تجميع مليون)"))
 async def _(event):
     await event.edit("**⎙︙سيتم تجميع النقاط من بوت المليون , قبل كل شي تأكد من انك قمت بالانضمام الى القنوات الاشتراك الاجباري للبوت لعدم حدوث اخطاء**")
-    channel_entity = await event.client.get_entity('@qweqwe1919bot')
-    await event.client.send_message('@qweqwe1919bot', '/start')
     await asyncio.sleep(4)
-    msg0 = await event.client.get_messages('@qweqwe1919bot', limit=1)
     await msg0[0].click(2)
     await asyncio.sleep(4)
-    msg1 = await event.client.get_messages('@qweqwe1919bot', limit=1)
     await msg1[0].click(0)
     chs = 1
     for i in range(100):
@@ -3967,14 +3908,10 @@ async def _(event):
             try:
                 await event.client(JoinChannelRequest(url))
             except:
-                bott = url.split('/')[-1]
-                await event.client(ImportChatInviteRequest(bott))
-            msg2 = await event.client.get_messages('@qweqwe1919bot', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"تم الانضمام في {chs} قناة")
         except:
-            msg2 = await event.client.get_messages('@qweqwe1919bot', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
             await event.edit(f"القناة رقم {chs}")  
@@ -3983,8 +3920,6 @@ async def _(event):
 @client.on(events.NewMessage(incoming=True))
 async def Hussein(event):
     if event.message.message.startswith("ايقاف التجميع") and str(event.sender_id) in ConsoleJoker:
-        bot_username = '@qweqwe1919bot'  
-        await event.client.send_message(bot_username, "/start")
         await event.reply("** ⎙︙ تم تعطيل عملية تجميع النقاط بنجاح ✓**")  
     
 
@@ -3993,13 +3928,9 @@ async def Hussein(event):
 @client.on(events.NewMessage(pattern="(.تجميع العرب|تجميع عرب)"))
 async def _(event):
     await event.edit("**⎙︙سيتم تجميع النقاط من بوت العرب , قبل كل شي تأكد من انك قمت بالانضمام الى القنوات الاشتراك الاجباري للبوت لعدم حدوث اخطاء**")
-    channel_entity = await l313l.get_entity(bot_username5)
-    await l313l.send_message(bot_username5, '/start')
     await asyncio.sleep(4)
-    msg0 = await l313l.get_messages(bot_username5, limit=1)
     await msg0[0].click(2)
     await asyncio.sleep(4)
-    msg1 = await l313l.get_messages(bot_username5, limit=1)
     await msg1[0].click(0)
 
     chs = 1
@@ -4017,14 +3948,10 @@ async def _(event):
             try:
                 await l313l(JoinChannelRequest(url))
             except:
-                bott = url.split('/')[-1]
-                await l313l(ImportChatInviteRequest(bott))
-            msg2 = await l313l.get_messages(bot_username5, limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"تم الانضمام في {chs} قناة")
         except:
-            msg2 = await l313l.get_messages(bot_username5, limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
             await event.edit(f"القناة رقم {chs}")
@@ -4033,17 +3960,10 @@ async def _(event):
 @client.on(events.NewMessage(pattern=".تجميع دعمكم"))
 async def تجميع_دعمكم(event):
     await event.edit("**⎙︙سيتم تجميع النقاط من بوت دعمكم , قبل كل شي تأكد من انك قمت بالانضمام الى القنوات الاشتراك الاجباري للبوت لعدم حدوث اخطاء**")
-    bot_username = '@DamKombot'
-    channel_entity = await l313l.get_entity(bot_username)
-    await تجميع_قنوات_دعمكم(event, channel_entity, bot_username)
 
-async def تجميع_قنوات_دعمكم(event, channel_entity, bot_username):
-    await l313l.send_message(bot_username, '/start')
     await asyncio.sleep(4)
-    msg0 = await l313l.get_messages(bot_username, limit=1)
     await msg0[0].click(1)
     await asyncio.sleep(4)
-    msg1 = await l313l.get_messages(bot_username, limit=1)
     await msg1[0].click(0)
     قنوات_مجمعة = 1
     for _ in range(100):
@@ -4061,7 +3981,6 @@ async def تجميع_قنوات_دعمكم(event, channel_entity, bot_username):
                 if entity:
                     await l313l(JoinChannelRequest(entity.id))
                     await asyncio.sleep(4)
-                    msg2 = await l313l.get_messages(bot_username, limit=1)
                     await msg2[0].click(text='اشتركت ✅')
                     قنوات_مجمعة += 1
                     await event.edit(f"تم الانظمام الى القناة رقم {قنوات_مجمعة}")
@@ -4073,13 +3992,9 @@ async def تجميع_قنوات_دعمكم(event, channel_entity, bot_username):
 @client.on(events.NewMessage(pattern="(تجميع الاساسيل|.تجميع اساسيل)"))
 async def _(event):
     await event.edit("**⎙︙سيتم تجميع النقاط من بوت اساسيل , قبل كل شي تأكد من انك قمت بالانضمام الى القنوات الاشتراك الاجباري للبوت لعدم حدوث اخطاء**")
-    channel_entity = await event.client.get_entity('@yynnurybot')
-    await event.client.send_message('@yynnurybot', '/start')
     await asyncio.sleep(4)
-    msg0 = await event.client.get_messages('@yynnurybot', limit=1)
     await msg0[0].click(2)
     await asyncio.sleep(4)
-    msg1 = await event.client.get_messages('@yynnurybot', limit=1)
     await msg1[0].click(0)
     chs = 1
     for i in range(100):
@@ -4094,14 +4009,10 @@ async def _(event):
             try:
                 await event.client(JoinChannelRequest(url))
             except:
-                bott = url.split('/')[-1]
-                await event.client(ImportChatInviteRequest(bott))
-            msg2 = await event.client.get_messages('@yynnurybot', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"تم الانضمام في {chs} قناة")
         except:
-            msg2 = await event.client.get_messages('@yynnurybot', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
             await event.edit(f"القناة رقم {chs}")  
@@ -4110,21 +4021,15 @@ async def _(event):
 @client.on(events.NewMessage(incoming=True))
 async def Hussein(event):
     if event.message.message.startswith("ايقاف التجميع") and str(event.sender_id) in ConsoleJoker:
-        bot_username = '@yynnurybot'  
-        await event.client.send_message(bot_username, "/start")
         await event.reply("** ⎙︙ تم تعطيل عملية تجميع النقاط بنجاح ✓**")  
 
 
 @client.on(events.NewMessage(pattern="(تجميع المهدويون|.تجميع مهدويون)"))
 async def _(event):
     await event.edit("**⎙︙سيتم تجميع النقاط من بوت مهدويون , قبل كل شي تأكد من انك قمت بالانضمام الى القنوات الاشتراك الاجباري للبوت لعدم حدوث اخطاء**")
-    channel_entity = await event.client.get_entity('@MHDN313bot')
-    await event.client.send_message('@MHDN313bot', '/start')
     await asyncio.sleep(4)
-    msg0 = await event.client.get_messages('@MHDN313bot', limit=1)
     await msg0[0].click(2)
     await asyncio.sleep(4)
-    msg1 = await event.client.get_messages('@MHDN313bot', limit=1)
     await msg1[0].click(0)
     chs = 1
     for i in range(100):
@@ -4139,14 +4044,10 @@ async def _(event):
             try:
                 await event.client(JoinChannelRequest(url))
             except:
-                bott = url.split('/')[-1]
-                await event.client(ImportChatInviteRequest(bott))
-            msg2 = await event.client.get_messages('@MHDN313bot', limit=1)
             await msg2[0].click(text='تحقق')
             chs += 1
             await event.edit(f"تم الانضمام في {chs} قناة")
         except:
-            msg2 = await event.client.get_messages('@MHDN313bot', limit=1)
             await msg2[0].click(text='التالي')
             chs += 1
             await event.edit(f"القناة رقم {chs}")  
@@ -4155,8 +4056,6 @@ async def _(event):
 @client.on(events.NewMessage(incoming=True))
 async def Hussein(event):
     if event.message.message.startswith("ايقاف التجميع") and str(event.sender_id) in ConsoleJoker:
-        bot_username = '@MHDN313bot'  
-        await event.client.send_message(bot_username, "/start")
         await event.reply("** ⎙︙ تم تعطيل عملية تجميع النقاط بنجاح ✓**")  
          
 @client.on(events.NewMessage(outgoing=True, pattern=r'\.(حظر|طرد|تقييد)'))
@@ -4481,8 +4380,6 @@ async def tconv(event):
     sentence_to_summarize = "يوت " + sentence_to_summarize
     await event.edit("يرجى الانتظار...")
     try:
-        x = await client.send_message('@ALMAS_bbot', sentence_to_summarize)
-        async with client.conversation('@ALMAS_bbot') as conv:
             audio_clip = None
             timeout = 15
             start_time = asyncio.get_event_loop().time()
@@ -4493,7 +4390,6 @@ async def tconv(event):
                     try:
                         channel_name = re.search(r"قناة البوت : (@\w+)", response.message).group(1)
                         await client(JoinChannelRequest(channel_name))
-                        x = await client.send_message('@ALMAS_bbot', sentence_to_summarize)
                     except Exception as e:
                         print(f"خطأ: {e}")
                 if response.audio:
@@ -4513,7 +4409,6 @@ async def tconv(event):
                 await event.delete()
                 await asyncio.sleep(0)  
                 try:
-                    await client(DeleteHistoryRequest(peer='@ALMAS_bbot', max_id=x.id, just_clear=False, revoke=True))
                 except MessageIdInvalidError:
                     print("خطأ: لا يمكن حذف الرسالة")
             else:
@@ -4555,11 +4450,9 @@ async def download_media(event):
     link = event.pattern_match.group(1)
     message_to_delete = await event.edit("جاري التحميل...")
 
-    async with client.conversation('@aaazzjbot') as conv:
         try:
             await conv.send_message(link)
 
-            @client.on(events.NewMessage(from_users='@aaazzjbot'))
             async def handle_response(event):
                 if event.media:
                     if event.grouped_id:
@@ -4576,7 +4469,6 @@ async def download_media(event):
 
                     try:
                         await client(functions.messages.DeleteHistoryRequest(
-                            peer='@aaazzjbot',
                             max_id=event.message.id,
                             revoke=True
                         ))
@@ -4696,7 +4588,6 @@ async def reply_handler(event):
     if (afk_mode or custom_replies_enabled) and event.is_private:
         me = await event.client.get_me()
         sender = await event.get_sender()
-        if sender.id != me.id and not sender.bot:
             if custom_replies_enabled:
                 for trigger, reply in custom_replies.items():
                     if trigger in event.raw_text:  
@@ -4739,7 +4630,6 @@ async def reply_handler(event):
     if (afk_mode or custom_replies_enabled) and event.is_private and event.chat_id not in allowed_chats:
         me = await event.client.get_me()
         sender = await event.get_sender()
-        if sender.id != me.id and not sender.bot:
             if custom_replies_enabled:
                 for trigger, reply in custom_replies.items():
                     if trigger in event.raw_text:
@@ -4781,7 +4671,6 @@ async def count(event):
     for d in dialogs:
         current_entity = d.entity
         if isinstance(current_entity, User):
-            if current_entity.bot:
                 b += 1
             else:
                 u += 1
@@ -4813,7 +4702,6 @@ async def stats(event):
     cat = await event.edit("**⪼ جاري المعـالجه ༗.**...")
     start_time = time.time()
     private_chats = 0
-    bots = 0
     groups = 0
     broadcast_channels = 0
     admin_in_groups = 0
@@ -4844,8 +4732,6 @@ async def stats(event):
                 creator_in_groups += 1
         elif not isinstance(entity, Channel) and isinstance(entity, User):
             private_chats += 1
-            if entity.bot:
-                bots += 1
         unread_mentions += dialog.unread_mentions_count
         unread += dialog.unread_count
 
@@ -4854,8 +4740,6 @@ async def stats(event):
     response = f"ـ𓆩 𝐒𝐎𝐔𝐑𝐂𝐄 𝐅𝑳𝐄𝐗**- 🝢 - معلومات {full_name}** 𓆪\n"
     response += f"**ـ𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻**\n"
     response += f"**- الخـاص :** {private_chats} \n"
-    response += f" ★ **اشخـاص :** `{private_chats - bots}` \n"
-    response += f" ★ **بـوتـات :** `{bots}` \n"
     response += f"**- المجمـوعـات :** {groups} \n"
     response += f"**- القنـوات :** {broadcast_channels} \n"
     response += f"**- ادمـن في مجموعات :** {admin_in_groups} \n"
@@ -5645,7 +5529,6 @@ async def handle_private_messages(event):
 
     if user_id == (await client.get_me()).id:
         return
-    if user_id in data.get("whitelist", []) or sender.bot:
         return
     if user_id == OWNER_ID:
         return
@@ -6058,7 +5941,6 @@ async def handler(event):
             last_reply_times[sender_id] = current_time
 
 plugin_category = "العروض"
-LOGS = logging.getLogger(__name__)
 
 sts_animal_list = [
     "https://telegra.ph/file/720a8d292301289bb7ca4.mp4",  # مطي
@@ -6231,9 +6113,7 @@ SLOT_E_MOJI = "🎰"
 
 @client.on(events.NewMessage(pattern=".اكس او$"))
 async def gamex(event):
-    botusername = "@xobot"
     noob = "play"
-    tap = await client.inline_query(botusername, noob)
     await tap[0].click(event.chat_id)
     await event.delete()
 
@@ -6520,7 +6400,6 @@ async def remaxzedthon(event):
         else:
             await event.edit("`يرجى إدخال كلمة للبحث عن الريمكس..!`")
             return
-    stickers = await client.inline_query("spotifybot", ok)
     await stickers[0].click(
         event.chat_id,
         reply_to=event.reply_to_msg_id,
@@ -6534,12 +6413,10 @@ async def zed(event):
     if event.fwd_from:
         return
     zedr = event.pattern_match.group(1)
-    bot_username = "@spotifybot"
     
     if event.reply_to_msg_id:
         await event.get_reply_message()
     
-    tap = await client.inline_query(bot_username, zedr)
     await tap[0].click(event.chat_id)
     await event.delete()
     
